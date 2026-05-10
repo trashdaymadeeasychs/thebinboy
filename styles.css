@@ -35,8 +35,11 @@ html { scroll-behavior: smooth; }
   align-items: center;
   overflow: hidden;
   height: 44px;
-  position: relative;
-  z-index: 200;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
 }
 
 .promo-banner__track {
@@ -215,7 +218,7 @@ ul { list-style: none; }
 /* ===== NAVBAR ===== */
 .navbar {
   position: fixed;
-  top: 0;
+  top: 44px;
   left: 0;
   right: 0;
   z-index: 1000;
@@ -302,7 +305,7 @@ ul { list-style: none; }
   background: linear-gradient(135deg, #1a3a23 0%, #2d6a3f 40%, #3a8c52 100%);
   display: flex;
   align-items: center;
-  padding: 100px 0 100px;
+  padding: 144px 0 100px;
   overflow: hidden;
 }
 
