@@ -28,6 +28,63 @@
 
 html { scroll-behavior: smooth; }
 
+/* ===== PROMO BANNER ===== */
+.promo-banner {
+  background: var(--green);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  height: 44px;
+  position: relative;
+  z-index: 200;
+}
+
+.promo-banner__track {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.promo-banner__content {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dark);
+  animation: promo-scroll 18s linear infinite;
+  will-change: transform;
+}
+
+.promo-banner__content:nth-child(2) {
+  animation-delay: -9s;
+}
+
+@keyframes promo-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+.promo-banner__btn {
+  flex-shrink: 0;
+  background: var(--dark);
+  color: var(--white);
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  margin-right: 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--transition);
+}
+.promo-banner__btn:hover { background: var(--green-dark); color: var(--white); }
+
 body {
   font-family: var(--font-body);
   color: var(--dark);
