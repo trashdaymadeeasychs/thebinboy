@@ -861,6 +861,114 @@ ul { list-style: none; }
 }
 .pricing-note a:hover { color: var(--green); }
 
+/* ===== SERVICE AREA ===== */
+.service-area {
+  background: linear-gradient(135deg, #2bc0c0 0%, #1a9fd4 50%, #2ecc71 100%);
+}
+.service-area .section-header h2,
+.service-area .section-header p {
+  color: var(--white);
+}
+.service-area__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* Area card */
+.sa-card {
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.35);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  backdrop-filter: blur(6px);
+}
+.sa-card__title {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 4px;
+}
+.sa-card__subtitle {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--yellow);
+  text-align: center;
+  margin-bottom: 24px;
+}
+.sa-locations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.sa-loc {
+  background: var(--green);
+  color: var(--white);
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 7px 18px;
+  border-radius: var(--radius-full);
+}
+.sa-card__contact {
+  text-align: center;
+  color: var(--white);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.sa-card__contact strong { font-size: 1.1rem; }
+
+/* Note panel */
+.sa-note {
+  color: var(--white);
+  padding: 8px 0;
+}
+.sa-note__heading {
+  font-family: var(--font-head);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+.sa-note p {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.sa-note__btns {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+}
+.sa-btn {
+  display: block;
+  text-align: center;
+  background: transparent;
+  color: var(--white);
+  border: 2.5px solid var(--white);
+  border-radius: var(--radius-full);
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  padding: 14px 24px;
+  text-decoration: underline;
+  transition: background var(--transition), color var(--transition);
+}
+.sa-btn:hover {
+  background: var(--white);
+  color: var(--dark);
+  text-decoration: none;
+}
+
 /* ===== WHY US ===== */
 .why-us {
   background: var(--white);
@@ -1356,6 +1464,7 @@ ul { list-style: none; }
   .navbar__links a { font-size: 1.3rem; color: var(--white); }
   .navbar__burger { display: flex; z-index: 1000; }
   .features-grid { grid-template-columns: 1fr; }
+  .service-area__inner { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .footer__inner { grid-template-columns: 1fr; }
   .contact__form-wrap { padding: 28px 20px; }
