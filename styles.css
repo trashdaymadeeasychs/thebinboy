@@ -200,24 +200,25 @@ p { text-wrap: pretty; }
   flex: 1;
   overflow: hidden;
   white-space: nowrap;
+  width: max-content;
+  animation: promo-scroll 22s linear infinite;
+  will-change: transform;
 }
 
 .promo-banner__content {
   display: inline-block;
+  flex-shrink: 0;
   font-family: var(--font-head);
   font-weight: 700;
   font-size: 0.82rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink);
-  animation: promo-scroll 18s linear infinite;
-  will-change: transform;
 }
-.promo-banner__content:nth-child(2) { animation-delay: -9s; }
 
 @keyframes promo-scroll {
   from { transform: translateX(0); }
-  to   { transform: translateX(-100%); }
+  to   { transform: translateX(-50%); }
 }
 
 .promo-banner__btn {
@@ -1470,7 +1471,7 @@ p { text-wrap: pretty; }
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
   .hero__logo-img { animation: none; }
-  .promo-banner__content { animation-play-state: paused; }
+  .promo-banner__track { animation-play-state: paused; }
   [data-animate] {
     opacity: 1;
     transform: none;
