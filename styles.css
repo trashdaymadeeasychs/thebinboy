@@ -1070,6 +1070,143 @@ p { text-wrap: pretty; }
   max-width: 42ch;
 }
 
+/* ===== GOOGLE REVIEWS MARQUEE ===== */
+.google-reviews-section {
+  background: #fff;
+  padding: var(--sp-12) 0;
+  overflow: hidden;
+}
+
+.google-reviews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-8);
+}
+
+.google-reviews-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.google-reviews-count {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.google-reviews-stars {
+  color: #FBBC05;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+}
+
+.google-reviews-count strong {
+  font-family: var(--font-head);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.google-reviews-cta {
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #4285F4;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+.google-reviews-cta:hover { opacity: 0.75; }
+
+/* Marquee */
+.marquee-track-wrap {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  gap: var(--sp-5);
+  width: max-content;
+  animation: marquee-scroll 32s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+.gr-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  background: var(--green-pale);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6) var(--sp-6);
+  width: 300px;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: var(--ink);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.gr-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.gr-card__stars {
+  color: #FBBC05;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+.gr-card p {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-mid);
+  flex: 1;
+}
+
+.gr-card__author {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: auto;
+}
+
+.gr-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gr-card__author strong {
+  font-family: var(--font-head);
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+@media (max-width: 600px) {
+  .google-reviews-header { flex-direction: column; align-items: flex-start; }
+  .gr-card { width: 260px; }
+}
+
 /* ===== TESTIMONIALS ===== */
 .testimonials {
   background: var(--green-light);
@@ -1283,11 +1420,35 @@ p { text-wrap: pretty; }
 }
 .contact-detail a:hover { color: var(--green-dark); }
 
-/* Form */
+/* Form / Booking */
 .contact__form-wrap {
   background: var(--green-light);
   border-radius: var(--radius-lg);
   padding: var(--sp-10) var(--sp-10);
+}
+
+.booking-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-5);
+  text-align: center;
+  padding: var(--sp-8) 0;
+}
+
+.booking-btns h3 {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--sp-2);
+}
+
+.btn--booking {
+  width: 100%;
+  font-size: 1.2rem;
+  padding: var(--sp-5) var(--sp-8);
+  letter-spacing: 0.02em;
 }
 
 .contact-form h3 {
