@@ -58,18 +58,6 @@ if (contactForm) {
   });
 }
 
-// ===== NEWSLETTER FORM =====
-const newsletterForm = document.getElementById('newsletterForm');
-newsletterForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const input = newsletterForm.querySelector('input');
-  const btn = newsletterForm.querySelector('button');
-  btn.textContent = '✓ Done!';
-  btn.disabled = true;
-  input.value = '';
-  input.placeholder = 'You\'re subscribed!';
-  input.disabled = true;
-});
 
 // ===== SMOOTH ANCHOR SCROLL (offset for fixed navbar) =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
