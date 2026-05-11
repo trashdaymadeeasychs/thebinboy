@@ -328,8 +328,9 @@ p { text-wrap: pretty; }
   background: var(--green-deep);
   display: flex;
   align-items: center;
-  padding: 140px 0 96px;
+  padding: 140px 0 80px;
   overflow: hidden;
+  border-bottom: 3px solid var(--green);
 }
 
 /* Atmospheric tones in the hero */
