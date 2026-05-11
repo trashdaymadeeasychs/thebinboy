@@ -1127,6 +1127,57 @@ p { text-wrap: pretty; }
   color: var(--ink-mid);
 }
 
+/* ===== FAQ ===== */
+.faq { background: var(--white-tint); }
+
+.faq-list {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.faq-item:first-child { border-top: 1px solid var(--border); }
+
+.faq-item__q {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+  padding: var(--sp-6) 0;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-4);
+  transition: color 150ms ease;
+}
+.faq-item__q::-webkit-details-marker { display: none; }
+.faq-item__q::after {
+  content: '+';
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--green);
+  flex-shrink: 0;
+  transition: transform 250ms var(--ease-out-quart);
+  line-height: 1;
+}
+.faq-item[open] .faq-item__q { color: var(--green-dark); }
+.faq-item[open] .faq-item__q::after { transform: rotate(45deg); }
+
+.faq-item__a {
+  font-size: 0.97rem;
+  color: var(--muted);
+  line-height: 1.75;
+  padding-bottom: var(--sp-6);
+  max-width: 65ch;
+}
+
 /* ===== CONTACT ===== */
 .contact { background: var(--white-tint); }
 
