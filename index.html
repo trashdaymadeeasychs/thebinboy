@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>The Bin Boy – Professional Bin Cleaning Service</title>
   <meta name="description" content="We come to your home and wash your garbage bins clean at 200°. Fast, affordable, and eco-friendly bin cleaning. Book online today!" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -163,36 +163,32 @@
         <h2>Easier Than You Think</h2>
         <p>Three simple steps and your bins go from gross to gleaming — without you doing a thing.</p>
       </div>
-      <div class="steps">
-        <div class="step" data-animate>
-          <div class="step__number">1</div>
-          <div class="step__icon">📱</div>
-          <h3>Book Online</h3>
-          <p>Pick your plan and a date that works. Takes less than 2 minutes and you'll get a confirmation straight to your phone.</p>
-        </div>
-        <div class="step__connector">
-          <div class="connector-dots">
-            <span></span><span></span><span></span>
+      <ol class="hiw-steps">
+        <li class="hiw-step" data-animate style="--i:0">
+          <div class="hiw-step__num">01</div>
+          <div class="hiw-step__body">
+            <div class="hiw-step__icon">📱</div>
+            <h3>Book Online</h3>
+            <p>Pick your plan and a date that works. Takes less than 2 minutes and you'll get a confirmation straight to your phone.</p>
           </div>
-        </div>
-        <div class="step" data-animate>
-          <div class="step__number">2</div>
-          <div class="step__icon">🚐</div>
-          <h3>We Come to You</h3>
-          <p>Our team rolls up to your place with our professional cleaning rig. Just leave your bins out — you don't even need to be home.</p>
-        </div>
-        <div class="step__connector">
-          <div class="connector-dots">
-            <span></span><span></span><span></span>
+        </li>
+        <li class="hiw-step" data-animate style="--i:1">
+          <div class="hiw-step__num">02</div>
+          <div class="hiw-step__body">
+            <div class="hiw-step__icon">🚐</div>
+            <h3>We Come to You</h3>
+            <p>Our team rolls up to your place with our professional cleaning rig. Just leave your bins out — you don't even need to be home.</p>
           </div>
-        </div>
-        <div class="step" data-animate>
-          <div class="step__number">3</div>
-          <div class="step__icon">✨</div>
-          <h3>Fresh Bins, Back in Place</h3>
-          <p>We power wash at 200°, sanitise, deodorise, and return your bins to your garage or preferred spot. You get a text when we're done.</p>
-        </div>
-      </div>
+        </li>
+        <li class="hiw-step" data-animate style="--i:2">
+          <div class="hiw-step__num">03</div>
+          <div class="hiw-step__body">
+            <div class="hiw-step__icon">✨</div>
+            <h3>Fresh Bins, Back in Place</h3>
+            <p>We power wash at 200°, sanitise, deodorise, and return your bins to your garage or preferred spot. You get a text when we're done.</p>
+          </div>
+        </li>
+      </ol>
     </div>
     <div class="wave-divider wave-divider--white">
       <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C480,80 960,0 1440,40 L1440,80 L0,80 Z" fill="#fff"/></svg>
@@ -365,33 +361,45 @@
       <div class="features-grid">
         <div class="feature-card" data-animate>
           <div class="feature-card__icon">🌡️</div>
-          <h3>200° Sanitizing Wash</h3>
-          <p>Our hot water system destroys bacteria, mould, and odours on contact. It's not just clean — it's genuinely sanitised.</p>
+          <div class="feature-card__content">
+            <h3>200° Sanitizing Wash</h3>
+            <p>Our hot water system destroys bacteria, mould, and odours on contact. It's not just clean — it's genuinely sanitised.</p>
+          </div>
         </div>
         <div class="feature-card" data-animate>
           <div class="feature-card__icon">🏡</div>
-          <h3>We Come to Your Home</h3>
-          <p>No dropping bins off anywhere. We show up at your address and do the job on the spot. You don't even need to be there.</p>
+          <div class="feature-card__content">
+            <h3>We Come to Your Home</h3>
+            <p>No dropping bins off anywhere. We show up at your address and do the job on the spot. You don't even need to be there.</p>
+          </div>
         </div>
         <div class="feature-card" data-animate>
           <div class="feature-card__icon">🚗</div>
-          <h3>Bins Returned to Your Garage</h3>
-          <p>We put everything back exactly where you want it — your garage, your side gate, wherever you prefer.</p>
+          <div class="feature-card__content">
+            <h3>Bins Returned to Your Garage</h3>
+            <p>We put everything back exactly where you want it — your garage, your side gate, wherever you prefer.</p>
+          </div>
         </div>
         <div class="feature-card" data-animate>
           <div class="feature-card__icon">🌿</div>
-          <h3>Safe for Your Family</h3>
-          <p>All our cleaning products are biodegradable and non-toxic. Safe for kids, pets, and the garden.</p>
+          <div class="feature-card__content">
+            <h3>Safe for Your Family</h3>
+            <p>All our cleaning products are biodegradable and non-toxic. Safe for kids, pets, and the garden.</p>
+          </div>
         </div>
         <div class="feature-card" data-animate>
           <div class="feature-card__icon">📲</div>
-          <h3>We Keep You Updated</h3>
-          <p>Get a text when we're on the way and another when we're done. No guessing, no waiting around — just clean bins.</p>
+          <div class="feature-card__content">
+            <h3>We Keep You Updated</h3>
+            <p>Get a text when we're on the way and another when we're done. No guessing, no waiting around — just clean bins.</p>
+          </div>
         </div>
         <div class="feature-card" data-animate>
           <div class="feature-card__icon">🛡️</div>
-          <h3>Fully Insured</h3>
-          <p>We're fully insured for every job. You're welcoming us onto your property and we take that trust seriously.</p>
+          <div class="feature-card__content">
+            <h3>Fully Insured</h3>
+            <p>We're fully insured for every job. You're welcoming us onto your property and we take that trust seriously.</p>
+          </div>
         </div>
       </div>
     </div>
