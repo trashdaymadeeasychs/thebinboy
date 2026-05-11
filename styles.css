@@ -1142,6 +1142,10 @@ p { text-wrap: pretty; }
 }
 .marquee-track:hover { animation-play-state: paused; }
 
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; flex-wrap: wrap; width: 100%; justify-content: center; }
+}
+
 .gr-card {
   display: flex;
   flex-direction: column;

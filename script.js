@@ -43,26 +43,20 @@ animateEls.forEach(el => observer.observe(el));
 
 // ===== CONTACT FORM =====
 const contactForm = document.getElementById('contactForm');
-const formSuccess = document.getElementById('formSuccess');
-
-contactForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  if (!contactForm.checkValidity()) {
-    contactForm.reportValidity();
-    return;
-  }
-
-  const btn = contactForm.querySelector('button[type="submit"]');
-  btn.disabled = true;
-  btn.textContent = 'Sending…';
-
-  // Simulate async submission
-  setTimeout(() => {
-    contactForm.hidden = true;
-    formSuccess.hidden = false;
-  }, 1200);
-});
+if (contactForm) {
+  const formSuccess = document.getElementById('formSuccess');
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!contactForm.checkValidity()) { contactForm.reportValidity(); return; }
+    const btn = contactForm.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    setTimeout(() => {
+      contactForm.hidden = true;
+      if (formSuccess) formSuccess.hidden = false;
+    }, 1200);
+  });
+}
 
 // ===== NEWSLETTER FORM =====
 const newsletterForm = document.getElementById('newsletterForm');
