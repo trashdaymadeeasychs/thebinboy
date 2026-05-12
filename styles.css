@@ -877,6 +877,41 @@ p { text-wrap: pretty; }
 .pricing-note a { color: var(--green-dark); font-weight: 600; text-decoration: underline; }
 .pricing-note a:hover { color: var(--green); }
 
+.partner-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  margin-top: var(--sp-8);
+  padding: var(--sp-6) var(--sp-8);
+  background: var(--white-tint);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+}
+
+.partner-callout__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.partner-callout__text strong {
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.partner-callout__text span {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+@media (max-width: 600px) {
+  .partner-callout { flex-direction: column; align-items: flex-start; }
+}
+
 /* ===== SERVICE AREA — deep green, stays on-brand ===== */
 .service-area { background: var(--green-deep); }
 
