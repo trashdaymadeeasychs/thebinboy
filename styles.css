@@ -885,7 +885,7 @@ p { text-wrap: pretty; }
   margin-top: var(--sp-8);
   padding: var(--sp-6) var(--sp-8);
   background: var(--white-tint);
-  border: 1.5px solid var(--border);
+  border: 2px solid oklch(28% 0.10 255);
   border-radius: var(--radius-md);
   flex-wrap: wrap;
 }
