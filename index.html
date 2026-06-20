@@ -30,126 +30,269 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-
   <!--
     ===== STRUCTURED DATA (JSON-LD) =====
     Single @graph = one source of truth for the whole site. Edit business facts
-    (phone, email, hours, service area, prices) here and they flow everywhere.
-    All entities are cross-linked by @id (#business, #website, #webpage, etc.),
-    so there are no duplicate/conflicting entities for the same thing.
-
-    NOTE — no AggregateRating / Review markup is included on purpose. The
-    testimonials displayed on the page are sample/placeholder copy and the
-    "400+ five-star reviews" claim is not individually verifiable in markup.
-    Adding self-reported review markup here would violate Google's guidelines.
-    TODO: once real, verifiable Google reviews are connected, add an
-    "aggregateRating" (and/or "review") to the #business node using the actual
-    rating value and review count from Google.
+    (phone, email, hours, service area, prices, reviews) here and they flow
+    everywhere. All entities are cross-linked by @id (#business, #website,
+    #webpage, #service-*, etc.), so there are no duplicate/conflicting entities.
+    aggregateRating + review reflect REAL, on-page Google reviews (see the
+    reviews carousel). Keep the schema values in sync with the visible reviews
+    and ratings; update reviewCount/ratingValue as the real Google totals change.
+    commercial.html has its own Service schema that references this same
+    #business @id via provider, keeping entity identity consistent site-wide.
   -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    "name": "The Bin Boy",
-    "url": "https://thebinboy.com",
-    "telephone": "+18434780108",
-    "email": "hello@thebinboy.com",
-    "description": "Professional trash and recycle bin cleaning service in Charleston, SC and surrounding areas. We come to your home, clean your bins at 200°, and return them to your garage.",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://thebinboy.com/images/logo.png"
-    },
-    "image": "https://thebinboy.com/images/logo.png",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Charleston",
-      "addressRegion": "SC",
-      "addressCountry": "US"
-    },
-    "areaServed": [
-      "Charleston, SC", "North Charleston, SC", "Summerville, SC",
-      "Goose Creek, SC", "Mount Pleasant, SC", "Moncks Corner, SC",
-      "Johns Island, SC", "Hanahan, SC", "Ladson, SC",
-      "Folly Beach, SC", "James Island, SC", "Isle of Palms, SC"
-    ],
-    "openingHours": "Mo-Sa 07:00-18:00",
-    "priceRange": "$$",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+18434780108",
-      "contactType": "customer service",
-      "areaServed": "US-SC"
-    },
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Bin Cleaning Plans",
-      "itemListElement": [
-        { "@type": "Offer", "name": "Monthly Bin Cleaning", "price": "20", "priceCurrency": "USD" },
-        { "@type": "Offer", "name": "Quarterly Bin Cleaning", "price": "40", "priceCurrency": "USD" },
-        { "@type": "Offer", "name": "One-Time Bin Cleaning", "price": "60", "priceCurrency": "USD" }
-      ]
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "440",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
-    "review": [
+    "@graph": [
       {
-        "@type": "Review",
-        "author": { "@type": "Person", "name": "Geraldine Shepherd" },
-        "datePublished": "2026-06-06",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "Thanks so much for the wonderful job. Our bin smells so fresh. We have been plagued with disgusting fly larva throughout the summer months in the past, so I am looking forward to a maggot-free summer with your wonderful service. Thank you."
+        "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
+        "@id": "https://thebinboy.com/#business",
+        "name": "The Bin Boy",
+        "url": "https://thebinboy.com/",
+        "telephone": "+18434780108",
+        "email": "hello@thebinboy.com",
+        "description": "Professional trash and recycle bin cleaning service in Charleston, SC and surrounding areas. We come to your home, clean your bins at 200°, and return them to your garage.",
+        "slogan": "A Canvenient Company",
+        "logo": {
+          "@type": "ImageObject",
+          "@id": "https://thebinboy.com/#logo",
+          "url": "https://thebinboy.com/images/logo.png",
+          "caption": "The Bin Boy"
+        },
+        "image": { "@id": "https://thebinboy.com/#logo" },
+        "founder": { "@type": "Person", "name": "Bryan" },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Charleston",
+          "addressRegion": "SC",
+          "addressCountry": "US"
+        },
+        "areaServed": [
+          { "@type": "City", "name": "Charleston, SC" },
+          { "@type": "City", "name": "North Charleston, SC" },
+          { "@type": "City", "name": "Summerville, SC" },
+          { "@type": "City", "name": "Goose Creek, SC" },
+          { "@type": "City", "name": "Mount Pleasant, SC" },
+          { "@type": "City", "name": "Moncks Corner, SC" },
+          { "@type": "City", "name": "Johns Island, SC" },
+          { "@type": "City", "name": "Hanahan, SC" },
+          { "@type": "City", "name": "Ladson, SC" },
+          { "@type": "City", "name": "Folly Beach, SC" },
+          { "@type": "City", "name": "James Island, SC" },
+          { "@type": "City", "name": "Isle of Palms, SC" }
+        ],
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "07:00",
+          "closes": "18:00"
+        },
+        "priceRange": "$$",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+18434780108",
+          "email": "hello@thebinboy.com",
+          "contactType": "customer service",
+          "areaServed": "US-SC",
+          "availableLanguage": "English"
+        },
+        "sameAs": [
+          "https://www.facebook.com/TheBInBoy.SC/",
+          "https://www.instagram.com/thebinboysc/"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Bin Cleaning Plans",
+          "itemListElement": [
+            { "@id": "https://thebinboy.com/#offer-monthly" },
+            { "@id": "https://thebinboy.com/#offer-quarterly" },
+            { "@id": "https://thebinboy.com/#offer-onetime" }
+          ]
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "440",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "review": [
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Geraldine Shepherd" },
+            "datePublished": "2026-06-06",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "Thanks so much for the wonderful job. Our bin smells so fresh. We have been plagued with disgusting fly larva throughout the summer months in the past, so I am looking forward to a maggot-free summer with your wonderful service. Thank you."
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Sheryl T." },
+            "datePublished": "2026-05-30",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "So pleased with the cleaning and deodorizing of our garbage and recycle bins by The Bin Boy! Easy peasy process, too! Will use them again for sure! Thank you!"
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Christy Chappell" },
+            "datePublished": "2026-05-20",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "I am so glad this service is available! Sebastian came out and cleaned both garbage cans. They are sparkling clean and smell good too — no longer stinky! Highly recommend their services!"
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Andrew Haws" },
+            "datePublished": "2026-06-06",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "Great experience! Polite, clean, professional and a job well done! I will be using their services from here on out."
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Alexis Waldrop" },
+            "datePublished": "2026-05-20",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "I had a great experience with The Bin Boy! The scheduling process was stress-free and the actual service was quick. I'm so pleased with my clean bin!"
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Katherine Morgan" },
+            "datePublished": "2026-03-20",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "They did a great job! Trash cans look and smell clean and they even put them up closer to the house and away from the curb when they were finished. Highly recommend!"
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Sarah Miller" },
+            "datePublished": "2025-10-20",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "I am VERY impressed! Our trashcan smelled horrendous from fly-trap juice and we were having trouble with flies. After The Bin Boy cleaned and sanitized it, it looks like a new trashcan and smells great! Thank you again."
+          }
+        ]
       },
       {
-        "@type": "Review",
-        "author": { "@type": "Person", "name": "Sheryl T." },
-        "datePublished": "2026-05-30",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "So pleased with the cleaning and deodorizing of our garbage and recycle bins by The Bin Boy! Easy peasy process, too! Will use them again for sure! Thank you!"
+        "@type": "WebSite",
+        "@id": "https://thebinboy.com/#website",
+        "url": "https://thebinboy.com/",
+        "name": "The Bin Boy",
+        "description": "Professional trash and recycle bin cleaning in Charleston, SC and the Lowcountry.",
+        "publisher": { "@id": "https://thebinboy.com/#business" },
+        "inLanguage": "en-US"
       },
       {
-        "@type": "Review",
-        "author": { "@type": "Person", "name": "Christy Chappell" },
-        "datePublished": "2026-05-20",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "I am so glad this service is available! Sebastian came out and cleaned both garbage cans. They are sparkling clean and smell good too — no longer stinky! Highly recommend their services!"
+        "@type": "WebPage",
+        "@id": "https://thebinboy.com/#webpage",
+        "url": "https://thebinboy.com/",
+        "name": "Trash Bin Cleaning Charleston SC | The Bin Boy",
+        "description": "Professional trash and recycle bin cleaning in Charleston, SC and surrounding areas. Monthly, quarterly, and one-time cleanings at 200°. Book online in minutes.",
+        "isPartOf": { "@id": "https://thebinboy.com/#website" },
+        "about": { "@id": "https://thebinboy.com/#business" },
+        "primaryImageOfPage": { "@id": "https://thebinboy.com/#logo" },
+        "breadcrumb": { "@id": "https://thebinboy.com/#breadcrumb" },
+        "inLanguage": "en-US"
       },
       {
-        "@type": "Review",
-        "author": { "@type": "Person", "name": "Andrew Haws" },
-        "datePublished": "2026-06-06",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "Great experience! Polite, clean, professional and a job well done! I will be using their services from here on out."
+        "@type": "BreadcrumbList",
+        "@id": "https://thebinboy.com/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thebinboy.com/" }
+        ]
       },
       {
-        "@type": "Review",
-        "author": { "@type": "Person", "name": "Alexis Waldrop" },
-        "datePublished": "2026-05-20",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "I had a great experience with The Bin Boy! The scheduling process was stress-free and the actual service was quick. I'm so pleased with my clean bin!"
+        "@type": "Service",
+        "@id": "https://thebinboy.com/#service-monthly",
+        "name": "Monthly Trash Bin Cleaning",
+        "serviceType": "Trash bin cleaning",
+        "description": "Recurring monthly curbside bin cleaning. We come to your home and power wash 2 bins inside and out at 200°, apply an odor-neutralizing solution, and return them to your garage each visit.",
+        "provider": { "@id": "https://thebinboy.com/#business" },
+        "areaServed": { "@type": "AdministrativeArea", "name": "Charleston, SC and the Lowcountry" },
+        "offers": {
+          "@type": "Offer",
+          "@id": "https://thebinboy.com/#offer-monthly",
+          "price": "20",
+          "priceCurrency": "USD",
+          "url": "https://clienthub.getjobber.com/hubs/de76b674-b23c-4e12-9114-a51409e7ab45/public/requests/369306/new?source=social_media"
+        }
       },
       {
-        "@type": "Review",
-        "author": { "@type": "Person", "name": "Katherine Morgan" },
-        "datePublished": "2026-03-20",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "They did a great job! Trash cans look and smell clean and they even put them up closer to the house and away from the curb when they were finished. Highly recommend!"
+        "@type": "Service",
+        "@id": "https://thebinboy.com/#service-quarterly",
+        "name": "Quarterly Trash Bin Cleaning",
+        "serviceType": "Trash bin cleaning",
+        "description": "Bin cleaning once every 3 months. We power wash 2 bins inside and out at 200°, apply an odor-neutralizing solution, and return them to your garage.",
+        "provider": { "@id": "https://thebinboy.com/#business" },
+        "areaServed": { "@type": "AdministrativeArea", "name": "Charleston, SC and the Lowcountry" },
+        "offers": {
+          "@type": "Offer",
+          "@id": "https://thebinboy.com/#offer-quarterly",
+          "price": "40",
+          "priceCurrency": "USD",
+          "url": "https://clienthub.getjobber.com/hubs/de76b674-b23c-4e12-9114-a51409e7ab45/public/requests/369306/new?source=social_media"
+        }
       },
       {
-        "@type": "Review",
-        "author": { "@type": "Person", "name": "Sarah Miller" },
-        "datePublished": "2025-10-20",
-        "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-        "reviewBody": "I am VERY impressed! Our trashcan smelled horrendous from fly-trap juice and we were having trouble with flies. After The Bin Boy cleaned and sanitized it, it looks like a new trashcan and smells great! Thank you again."
+        "@type": "Service",
+        "@id": "https://thebinboy.com/#service-onetime",
+        "name": "One-Time Trash Bin Cleaning",
+        "serviceType": "Trash bin cleaning",
+        "description": "A single one-time bin cleaning. We power wash 2 bins inside and out at 200°, apply an odor-neutralizing solution, and return them to your garage.",
+        "provider": { "@id": "https://thebinboy.com/#business" },
+        "areaServed": { "@type": "AdministrativeArea", "name": "Charleston, SC and the Lowcountry" },
+        "offers": {
+          "@type": "Offer",
+          "@id": "https://thebinboy.com/#offer-onetime",
+          "price": "60",
+          "priceCurrency": "USD",
+          "url": "https://clienthub.getjobber.com/hubs/de76b674-b23c-4e12-9114-a51409e7ab45/public/requests/369306/new?source=social_media"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://thebinboy.com/#faqpage",
+        "isPartOf": { "@id": "https://thebinboy.com/#webpage" },
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How often should I clean my trash bins?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For most households in Charleston, a monthly clean is ideal — especially in South Carolina's heat and humidity, which speeds up bacteria growth and odor. Quarterly works well if your bins don't get heavy organic waste. Our Monthly Plan at $20/month is our most popular for exactly this reason."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is your bin cleaning service safe for kids and pets?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. We use biodegradable, non-toxic odor-neutralizing solution that's completely safe for children, pets, and your garden. Everything we use is eco-friendly and washes away cleanly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need to be home during the cleaning?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Just leave your bins at the curb or driveway and we'll handle everything. We'll text you when we're on the way and again when we're done — and we'll return your bins to your garage or wherever you prefer."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What areas do you service near Charleston?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We currently service Charleston, North Charleston, Summerville, Goose Creek, Mount Pleasant, Moncks Corner, Johns Island, Hanahan, Ladson, Folly Beach, James Island, and Isle of Palms. Monthly routes are based on customer density in each area; if your neighborhood isn't covered yet, get in touch and we'll add you to the waitlist."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does payment and scheduling work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Book online via the button above or call Bryan at (843) 478-0108. We'll confirm your service date and send a reminder before each visit. Monthly customers are billed monthly: no long-term contracts, cancel any time."
+            }
+          }
+        ]
       }
-    ],
-    "sameAs": [
-      "https://www.facebook.com/TheBInBoy.SC/",
-      "https://www.instagram.com/thebinboysc/"
     ]
   }
   </script>
