@@ -58,6 +58,41 @@ if (contactForm) {
   });
 }
 
+// ===== COMMERCIAL QUOTE FORM =====
+const commercialQuoteForm = document.getElementById('commercialQuoteForm');
+if (commercialQuoteForm) {
+  const commercialFormSuccess = document.getElementById('commercialFormSuccess');
+  commercialQuoteForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!commercialQuoteForm.checkValidity()) {
+      commercialQuoteForm.reportValidity();
+      return;
+    }
+
+    const formData = new FormData(commercialQuoteForm);
+    const lines = [
+      'Commercial quote request from thebinboy.com',
+      '',
+      `Name: ${formData.get('name')}`,
+      `Business / Property: ${formData.get('company')}`,
+      `Phone: ${formData.get('phone')}`,
+      `Email: ${formData.get('email')}`,
+      `Property Type: ${formData.get('property_type')}`,
+      `Bins / Dumpsters: ${formData.get('bins')}`,
+      '',
+      'Cleaning Need:',
+      formData.get('notes')
+    ];
+
+    const subject = encodeURIComponent('Commercial quote request');
+    const body = encodeURIComponent(lines.join('\n'));
+    window.location.href = `mailto:hello@thebinboy.com?subject=${subject}&body=${body}`;
+
+    commercialQuoteForm.hidden = true;
+    if (commercialFormSuccess) commercialFormSuccess.hidden = false;
+  });
+}
+
 
 // ===== SMOOTH ANCHOR SCROLL (offset for fixed navbar) =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
