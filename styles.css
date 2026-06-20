@@ -1218,28 +1218,71 @@ p { text-wrap: pretty; }
 }
 .google-reviews-cta:hover { opacity: 0.75; }
 
-/* Marquee */
-.marquee-track-wrap {
+/* Reviews carousel */
+.reviews-carousel {
+  position: relative;
+  padding: 0 var(--sp-6);
+}
+
+.reviews-carousel__viewport {
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
-@keyframes marquee-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.marquee-track {
+.reviews-carousel__track {
   display: flex;
   gap: var(--sp-5);
-  width: max-content;
-  animation: marquee-scroll 32s linear infinite;
+  transition: transform 0.55s var(--ease-out-quart);
+  will-change: transform;
 }
-.marquee-track:hover { animation-play-state: paused; }
+
+.reviews-carousel__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--font-head);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+}
+.reviews-carousel__nav:hover { background: var(--green-pale); }
+.reviews-carousel__nav--prev { left: -4px; }
+.reviews-carousel__nav--next { right: -4px; }
+
+.reviews-carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: var(--sp-6);
+}
+.reviews-carousel__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: var(--border);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.reviews-carousel__dot.is-active {
+  background: var(--green);
+  transform: scale(1.25);
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; flex-wrap: wrap; width: 100%; justify-content: center; }
+  .reviews-carousel__track { transition: none; }
 }
 
 .gr-card {
