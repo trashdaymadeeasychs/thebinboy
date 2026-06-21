@@ -155,7 +155,7 @@
           <h3>Tell us what needs cleaning.</h3>
           <p>Send a quick summary of the property, bin count, and cleaning need. We will follow up with a practical plan and quote.</p>
 
-          <form class="commercial-form" id="commercialQuoteForm">
+          <form class="commercial-form" id="commercialQuoteForm" novalidate>
             <div class="form-row">
               <div class="form-group">
                 <label for="commercialName">Name</label>
@@ -202,10 +202,10 @@
           </form>
 
           <div class="form-success" id="commercialFormSuccess" hidden>
-            <div class="form-success__icon">📧</div>
-            <h3>One last step — hit Send.</h3>
-            <p>Your email app should have opened with all the details pre-filled. <strong>Just hit Send</strong> to submit your quote request.</p>
-            <p style="margin-top:12px;font-size:0.88rem;color:var(--muted)">Email app didn't open? Call or text Bryan directly at <a href="tel:+18434780108" style="color:var(--green-dark);font-weight:700">(843) 478-0108</a>.</p>
+            <div class="form-success__icon">✅</div>
+            <h3>Quote request sent!</h3>
+            <p>Your request has been delivered to The Bin Boy team. Bryan will be in touch shortly to discuss your property and put together a plan.</p>
+            <p style="margin-top:12px;font-size:0.88rem;color:var(--muted)">Need to talk now? Call or text <a href="tel:+18434780108" style="color:var(--green-dark);font-weight:700">(843) 478-0108</a>.</p>
           </div>
         </div>
       </div>
@@ -285,6 +285,8 @@
     </div>
   </footer>
 
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

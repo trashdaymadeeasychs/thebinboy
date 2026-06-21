@@ -43,10 +43,32 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   animateEls.forEach(el => observer.observe(el));
 }
 
-// ===== COMMERCIAL QUOTE FORM =====
+// ===== COMMERCIAL QUOTE FORM — EmailJS =====
+// ----------------------------------------------------------------
+// SETUP (one-time, takes ~5 minutes):
+//   1. Create a free account at https://www.emailjs.com
+//   2. Add an Email Service (Gmail, Outlook, or SMTP) → copy the Service ID
+//   3. Create an Email Template — use these variable names in the template body:
+//        {{from_name}}, {{company}}, {{phone}}, {{from_email}},
+//        {{property_type}}, {{bins}}, {{message}}
+//      Set "To Email" in the template to: hello@thebinboy.com
+//   4. Copy your Public Key from Account → General
+//   5. Replace the three placeholder strings below with your real values
+// ----------------------------------------------------------------
+const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'abc123XYZ'
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_xxxxxxx'
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // e.g. 'template_xxxxxxx'
+
 const commercialQuoteForm = document.getElementById('commercialQuoteForm');
 if (commercialQuoteForm) {
+  // Only initialise EmailJS on pages that have the form
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
+
   const commercialFormSuccess = document.getElementById('commercialFormSuccess');
+  const submitBtn = commercialQuoteForm.querySelector('button[type="submit"]');
+
   commercialQuoteForm.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!commercialQuoteForm.checkValidity()) {
@@ -54,27 +76,35 @@ if (commercialQuoteForm) {
       return;
     }
 
+    // Disable button + show sending state
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
     const formData = new FormData(commercialQuoteForm);
-    const lines = [
-      'Commercial quote request from thebinboy.com',
-      '',
-      `Name: ${formData.get('name')}`,
-      `Business / Property: ${formData.get('company')}`,
-      `Phone: ${formData.get('phone')}`,
-      `Email: ${formData.get('email')}`,
-      `Property Type: ${formData.get('property_type')}`,
-      `Bins / Dumpsters: ${formData.get('bins')}`,
-      '',
-      'Cleaning Need:',
-      formData.get('notes')
-    ];
 
-    const subject = encodeURIComponent('Commercial quote request');
-    const body = encodeURIComponent(lines.join('\n'));
-    window.location.href = `mailto:hello@thebinboy.com?subject=${subject}&body=${body}`;
+    const templateParams = {
+      from_name     : formData.get('name'),
+      company       : formData.get('company'),
+      phone         : formData.get('phone'),
+      from_email    : formData.get('email'),
+      property_type : formData.get('property_type'),
+      bins          : formData.get('bins'),
+      message       : formData.get('notes'),
+    };
 
-    commercialQuoteForm.hidden = true;
-    if (commercialFormSuccess) commercialFormSuccess.hidden = false;
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+      .then(() => {
+        // Success — confirmed delivered to hello@thebinboy.com
+        commercialQuoteForm.hidden = true;
+        if (commercialFormSuccess) commercialFormSuccess.hidden = false;
+      })
+      .catch((err) => {
+        // Restore button so user can retry
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Request Commercial Quote';
+        console.error('EmailJS error:', err);
+        alert('Something went wrong sending your request. Please call Bryan at (843) 478-0108 or email hello@thebinboy.com directly.');
+      });
   });
 }
 
