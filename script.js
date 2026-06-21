@@ -51,7 +51,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 //   3. Create an Email Template — use these variable names in the template body:
 //        {{from_name}}, {{company}}, {{phone}}, {{from_email}},
 //        {{property_type}}, {{bins}}, {{message}}
-//      Set "To Email" in the template to: hello@thebinboy.com
+//      Set "To Email" in the template to: bryan@thebinboy.com
 //   4. Copy your Public Key from Account → General
 //   5. Replace the three placeholder strings below with your real values
 // ----------------------------------------------------------------
@@ -94,7 +94,7 @@ if (commercialQuoteForm) {
 
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
       .then(() => {
-        // Success — confirmed delivered to hello@thebinboy.com
+        // Success — confirmed delivered to bryan@thebinboy.com
         commercialQuoteForm.hidden = true;
         if (commercialFormSuccess) commercialFormSuccess.hidden = false;
       })
@@ -103,7 +103,7 @@ if (commercialQuoteForm) {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Request Commercial Quote';
         console.error('EmailJS error:', err);
-        alert('Something went wrong sending your request. Please call Bryan at (843) 478-0108 or email hello@thebinboy.com directly.');
+        alert('Something went wrong sending your request. Please call Bryan at (843) 478-0108 or email bryan@thebinboy.com directly.');
       });
   });
 }
