@@ -27,35 +27,20 @@ navLinks.querySelectorAll('a').forEach(link => {
 // ===== SCROLL ANIMATIONS =====
 const animateEls = document.querySelectorAll('[data-animate]');
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      // Stagger siblings within same parent
-      const siblings = Array.from(entry.target.parentElement.querySelectorAll('[data-animate]'));
-      const delay = siblings.indexOf(entry.target) * 100;
-      setTimeout(() => entry.target.classList.add('animated'), delay);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Stagger siblings within same parent
+        const siblings = Array.from(entry.target.parentElement.querySelectorAll('[data-animate]'));
+        const delay = siblings.indexOf(entry.target) * 100;
+        setTimeout(() => entry.target.classList.add('animated'), delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
 
-animateEls.forEach(el => observer.observe(el));
-
-// ===== CONTACT FORM =====
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-  const formSuccess = document.getElementById('formSuccess');
-  contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!contactForm.checkValidity()) { contactForm.reportValidity(); return; }
-    const btn = contactForm.querySelector('button[type="submit"]');
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-    setTimeout(() => {
-      contactForm.hidden = true;
-      if (formSuccess) formSuccess.hidden = false;
-    }, 1200);
-  });
+  animateEls.forEach(el => observer.observe(el));
 }
 
 // ===== COMMERCIAL QUOTE FORM =====
@@ -129,8 +114,10 @@ if (reviewsCarousel) {
     index = Math.min(Math.max(index, 0), maxIndex());
     const offset = cards[index].offsetLeft - cards[0].offsetLeft;
     track.style.transform = `translateX(${-offset}px)`;
-    Array.from(dotsWrap.children).forEach((dot, i) =>
-      dot.classList.toggle('is-active', i === index));
+    Array.from(dotsWrap.children).forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === index);
+      dot.setAttribute('aria-selected', i === index);
+    });
   }
 
   function buildDots() {

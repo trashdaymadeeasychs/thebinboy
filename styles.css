@@ -446,10 +446,9 @@ p { text-wrap: pretty; }
   font-family: var(--font-head);
   font-size: clamp(2.4rem, 4.8vw, 3.6rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.12;
   margin-bottom: var(--sp-5);
   letter-spacing: -0.01em;
-  line-height: 1.12;
 }
 
 .hero__text h1 em {
@@ -692,21 +691,7 @@ p { text-wrap: pretty; }
   position: relative;
   z-index: 1;
 }
-.van-img-wrap::before {
-  content: '🚐 Van / equipment\nphoto coming soon';
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-head);
-  font-size: 0.88rem;
-  color: oklch(99% 0.005 145 / 0.5);
-  text-align: center;
-  white-space: pre;
-  padding: var(--sp-5);
-  z-index: 0;
-}
+/* van-img-wrap::before placeholder removed — trucks.jpg is live */
 
 .van-text .section-tag {
   background: oklch(99% 0.005 145 / 0.12);
@@ -1823,8 +1808,8 @@ p { text-wrap: pretty; }
 
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
-  .hero__logo-img { animation: none; }
-  .promo-banner__track { animation-play-state: paused; }
+  .hero__logo-img { animation: none; transform: translateY(0); }
+  .promo-banner__track { animation: none; transform: translateX(0); }
   [data-animate] {
     opacity: 1;
     transform: none;
