@@ -8,8 +8,8 @@
   <link rel="canonical" href="https://thebinboy.com/" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="images/The-Bin-Boy LOGO.png" />
-  <link rel="apple-touch-icon" href="images/The-Bin-Boy LOGO.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png" />
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
 
   <!-- Open Graph -->
   <meta property="og:locale" content="en_US" />
@@ -18,33 +18,29 @@
   <meta property="og:title" content="Trash Bin Cleaning Charleston SC | The Bin Boy" />
   <meta property="og:description" content="Professional trash and recycle bin cleaning in Charleston, SC and the Lowcountry. Monthly, quarterly, and one-time cleanings from $20. Book online in minutes." />
   <meta property="og:url" content="https://thebinboy.com/" />
-  <meta property="og:image" content="https://thebinboy.com/images/The-Bin-Boy%20LOGO.png" />
+  <meta property="og:image" content="https://thebinboy.com/images/logo.png" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Trash Bin Cleaning Charleston SC | The Bin Boy" />
   <meta name="twitter:description" content="Professional trash and recycle bin cleaning in Charleston, SC and the Lowcountry. Monthly, quarterly, and one-time cleanings from $20." />
-  <meta name="twitter:image" content="https://thebinboy.com/images/The-Bin-Boy%20LOGO.png" />
+  <meta name="twitter:image" content="https://thebinboy.com/images/logo.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-
   <!--
     ===== STRUCTURED DATA (JSON-LD) =====
     Single @graph = one source of truth for the whole site. Edit business facts
-    (phone, email, hours, service area, prices) here and they flow everywhere.
-    All entities are cross-linked by @id (#business, #website, #webpage, etc.),
-    so there are no duplicate/conflicting entities for the same thing.
-
-    NOTE — no AggregateRating / Review markup is included on purpose. The
-    testimonials displayed on the page are sample/placeholder copy and the
-    "400+ five-star reviews" claim is not individually verifiable in markup.
-    Adding self-reported review markup here would violate Google's guidelines.
-    TODO: once real, verifiable Google reviews are connected, add an
-    "aggregateRating" (and/or "review") to the #business node using the actual
-    rating value and review count from Google.
+    (phone, email, hours, service area, prices, reviews) here and they flow
+    everywhere. All entities are cross-linked by @id (#business, #website,
+    #webpage, #service-*, etc.), so there are no duplicate/conflicting entities.
+    aggregateRating + review reflect REAL, on-page Google reviews (see the
+    reviews carousel). Keep the schema values in sync with the visible reviews
+    and ratings; update reviewCount/ratingValue as the real Google totals change.
+    commercial.html has its own Service schema that references this same
+    #business @id via provider, keeping entity identity consistent site-wide.
   -->
   <script type="application/ld+json">
   {
@@ -58,11 +54,11 @@
         "telephone": "+18434780108",
         "email": "hello@thebinboy.com",
         "description": "Professional trash and recycle bin cleaning service in Charleston, SC and surrounding areas. We come to your home, clean your bins at 200°, and return them to your garage.",
-        "slogan": "A Canvenient Company",
+        "slogan": "A Convenient Company",
         "logo": {
           "@type": "ImageObject",
           "@id": "https://thebinboy.com/#logo",
-          "url": "https://thebinboy.com/images/The-Bin-Boy%20LOGO.png",
+          "url": "https://thebinboy.com/images/logo.png",
           "caption": "The Bin Boy"
         },
         "image": { "@id": "https://thebinboy.com/#logo" },
@@ -104,7 +100,8 @@
         },
         "sameAs": [
           "https://www.facebook.com/TheBInBoy.SC/",
-          "https://www.instagram.com/thebinboysc/"
+          "https://www.instagram.com/thebinboysc/",
+          "https://www.google.com/search?kgmid=/g/11rgm1mhmt"
         ],
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
@@ -114,7 +111,65 @@
             { "@id": "https://thebinboy.com/#offer-quarterly" },
             { "@id": "https://thebinboy.com/#offer-onetime" }
           ]
-        }
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "440",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "review": [
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Geraldine Shepherd" },
+            "datePublished": "2026-06-06",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "Thanks so much for the wonderful job. Our bin smells so fresh. We have been plagued with disgusting fly larva throughout the summer months in the past, so I am looking forward to a maggot-free summer with your wonderful service. Thank you."
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Sheryl T." },
+            "datePublished": "2026-05-30",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "So pleased with the cleaning and deodorizing of our garbage and recycle bins by The Bin Boy! Easy peasy process, too! Will use them again for sure! Thank you!"
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Christy Chappell" },
+            "datePublished": "2026-05-20",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "I am so glad this service is available! Sebastian came out and cleaned both garbage cans. They are sparkling clean and smell good too — no longer stinky! Highly recommend their services!"
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Andrew Haws" },
+            "datePublished": "2026-06-06",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "Great experience! Polite, clean, professional and a job well done! I will be using their services from here on out."
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Alexis Waldrop" },
+            "datePublished": "2026-05-20",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "I had a great experience with The Bin Boy! The scheduling process was stress-free and the actual service was quick. I'm so pleased with my clean bin!"
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Katherine Morgan" },
+            "datePublished": "2026-03-20",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "They did a great job! Trash cans look and smell clean and they even put them up closer to the house and away from the curb when they were finished. Highly recommend!"
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Sarah Miller" },
+            "datePublished": "2025-10-20",
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "I am VERY impressed! Our trashcan smelled horrendous from fly-trap juice and we were having trouble with flies. After The Bin Boy cleaned and sanitized it, it looks like a new trashcan and smells great! Thank you again."
+          }
+        ]
       },
       {
         "@type": "WebSite",
@@ -226,7 +281,7 @@
             "name": "What areas do you service near Charleston?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "We currently service Charleston, Goose Creek, Mount Pleasant, Moncks Corner, Johns Island, Hanahan, Folly Beach, and James Island. Monthly routes are based on customer density in each area; if your neighborhood isn't covered yet, get in touch and we'll add you to the waitlist."
+              "text": "We currently service Charleston, North Charleston, Summerville, Goose Creek, Mount Pleasant, Moncks Corner, Johns Island, Hanahan, Ladson, Folly Beach, James Island, and Isle of Palms. Monthly routes are based on customer density in each area; if your neighborhood isn't covered yet, get in touch and we'll add you to the waitlist."
             }
           },
           {
@@ -270,6 +325,7 @@
         <a href="#how-it-works">How It Works</a>
         <a href="#gallery">Photos</a>
         <a href="#services">Pricing</a>
+        <a href="commercial.html">Commercial</a>
         <a href="#service-area">Service Area</a>
         <a href="#why-us">About</a>
         <a href="#reviews">Reviews</a>
@@ -294,12 +350,12 @@
 
       <!-- Logo LEFT -->
       <div class="hero__logo-wrap">
-        <img src="images/The-Bin-Boy LOGO.png" alt="The Bin Boy – A Canvenient Company" class="hero__logo-img" loading="eager" fetchpriority="high" />
+        <img src="images/logo.png" alt="The Bin Boy – A Convenient Company" class="hero__logo-img" width="600" height="643" loading="eager" fetchpriority="high" />
       </div>
 
       <!-- Text RIGHT -->
       <div class="hero__text">
-        <span class="badge">🏡 A Canvenient Company</span>
+        <span class="badge">🏡 A Convenient Company</span>
         <h1>We Come to<br />Your Home &amp; Clean<br /><em>Your Bins Out</em></h1>
         <p>Smelly, grimy garbage bins are a fact of life, but they don't have to be yours. The Bin Boy comes straight to your driveway, power washes your bins inside and out at <strong>200°</strong>, and leaves them fresh and sanitized. You don't lift a finger.</p>
         <div class="hero__ctas">
@@ -404,17 +460,17 @@
       <!-- Before / After Grid -->
       <div class="before-after-grid">
         <div class="ba-single" data-animate>
-          <img src="images/before and after 1.png" alt="Trash bin before and after professional cleaning in Charleston SC" loading="lazy" />
+          <img src="images/before-after-1.jpg" alt="Trash bin before and after professional cleaning in Charleston SC" width="1080" height="1080" loading="lazy" />
         </div>
         <div class="ba-single" data-animate>
-          <img src="images/before and after 2.png" alt="Garbage bin pressure washed clean by The Bin Boy" loading="lazy" />
+          <img src="images/before-after-2.jpg" alt="Garbage bin pressure washed clean by The Bin Boy" width="1080" height="1080" loading="lazy" />
         </div>
       </div>
 
       <!-- Van / Action Shot -->
       <div class="van-section" data-animate>
         <div class="van-img-wrap">
-          <img src="images/trucks.png" alt="The Bin Boy bin cleaning service truck in Charleston SC" loading="lazy" />
+          <img src="images/trucks.jpg" alt="The Bin Boy bin cleaning service truck in Charleston SC" width="768" height="768" loading="lazy" />
         </div>
         <div class="van-text">
           <span class="section-tag">Our Equipment</span>
@@ -601,85 +657,63 @@
       <div class="section-header">
         <span class="section-tag">Customer Reviews</span>
         <h2>What Charleston Homeowners Say</h2>
-        <p>Real people, real results. Serving 400+ happy households across Charleston and the Lowcountry.</p>
+        <p>Real reviews from real Charleston homeowners — rated 4.9 stars across 440+ Google reviews.</p>
       </div>
       <div class="google-reviews-header">
         <div class="google-reviews-badge">
           <svg class="google-g" viewBox="0 0 24 24" width="36" height="36" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
           <div class="google-reviews-count">
             <span class="google-reviews-stars">★★★★★</span>
-            <strong>400+ Five‑Star Google Reviews</strong>
+            <strong>4.9 ★ · 440+ Google Reviews</strong>
           </div>
         </div>
         <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="google-reviews-cta">Read All Reviews on Google →</a>
       </div>
     </div>
 
-    <div class="marquee-track-wrap">
-      <div class="marquee-track">
-        <!-- Row 1 -->
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"I honestly didn't realise how bad my bins had gotten until I saw them after The Bin Boy finished. Absolutely unreal difference. I'm on the monthly plan now and I'll never go back."</p>
-          <div class="gr-card__author"><div class="gr-avatar">SJ</div><strong>Sarah J.</strong></div>
-        </a>
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"These guys are legends. Super easy to book, turned up exactly when they said, and did a brilliant job. Bins look better than when I first got them. Highly recommend!"</p>
-          <div class="gr-card__author"><div class="gr-avatar">MT</div><strong>Mike T.</strong></div>
-        </a>
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"I manage a few rentals and the bins were always an issue between tenants. The Bin Boy sorts all of them in one visit. Saves me time, saves me hassle. Great service!"</p>
-          <div class="gr-card__author"><div class="gr-avatar">TR</div><strong>Tom R.</strong></div>
-        </a>
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"Never knew this service existed until my neighbor told me about it. Now I can't imagine life without it. Bryan is professional and always on time. 10/10!"</p>
-          <div class="gr-card__author"><div class="gr-avatar">LM</div><strong>Lisa M.</strong></div>
-        </a>
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"Charleston summers make bins absolutely disgusting. The Bin Boy solved that problem. My garage no longer smells and I didn't have to touch a thing. Worth every penny."</p>
-          <div class="gr-card__author"><div class="gr-avatar">JD</div><strong>James D.</strong></div>
-        </a>
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"Booked online in two minutes, they showed up right on schedule and texted me when done. My bins look brand new. Great local business — highly recommend to everyone in the area."</p>
-          <div class="gr-card__author"><div class="gr-avatar">KP</div><strong>Karen P.</strong></div>
-        </a>
-        <!-- Duplicate for seamless loop -->
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card" aria-hidden="true" tabindex="-1">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"I honestly didn't realise how bad my bins had gotten until I saw them after The Bin Boy finished. Absolutely unreal difference. I'm on the monthly plan now and I'll never go back."</p>
-          <div class="gr-card__author"><div class="gr-avatar">SJ</div><strong>Sarah J.</strong></div>
-        </a>
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card" aria-hidden="true" tabindex="-1">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"These guys are legends. Super easy to book, turned up exactly when they said, and did a brilliant job. Bins look better than when I first got them. Highly recommend!"</p>
-          <div class="gr-card__author"><div class="gr-avatar">MT</div><strong>Mike T.</strong></div>
-        </a>
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card" aria-hidden="true" tabindex="-1">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"I manage a few rentals and the bins were always an issue between tenants. The Bin Boy sorts all of them in one visit. Saves me time, saves me hassle. Great service!"</p>
-          <div class="gr-card__author"><div class="gr-avatar">TR</div><strong>Tom R.</strong></div>
-        </a>
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card" aria-hidden="true" tabindex="-1">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"Never knew this service existed until my neighbor told me about it. Now I can't imagine life without it. Bryan is professional and always on time. 10/10!"</p>
-          <div class="gr-card__author"><div class="gr-avatar">LM</div><strong>Lisa M.</strong></div>
-        </a>
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card" aria-hidden="true" tabindex="-1">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"Charleston summers make bins absolutely disgusting. The Bin Boy solved that problem. My garage no longer smells and I didn't have to touch a thing. Worth every penny."</p>
-          <div class="gr-card__author"><div class="gr-avatar">JD</div><strong>James D.</strong></div>
-        </a>
-        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="gr-card" aria-hidden="true" tabindex="-1">
-          <div class="gr-card__stars">★★★★★</div>
-          <p>"Booked online in two minutes, they showed up right on schedule and texted me when done. My bins look brand new. Great local business — highly recommend to everyone in the area."</p>
-          <div class="gr-card__author"><div class="gr-avatar">KP</div><strong>Karen P.</strong></div>
-        </a>
+    <div class="reviews-carousel" data-reviews-carousel>
+      <button type="button" class="reviews-carousel__nav reviews-carousel__nav--prev" aria-label="Previous reviews">‹</button>
+      <div class="reviews-carousel__viewport">
+        <div class="reviews-carousel__track">
+          <article class="gr-card">
+            <div class="gr-card__stars" aria-label="Rated 5 out of 5">★★★★★</div>
+            <p>"Thanks so much for the wonderful job. Our bin smells so fresh. We have been plagued with disgusting fly larva throughout the summer months in the past, so I am looking forward to a maggot-free summer with your wonderful service. Thank you."</p>
+            <div class="gr-card__author"><div class="gr-avatar">GS</div><strong>Geraldine Shepherd</strong></div>
+          </article>
+          <article class="gr-card">
+            <div class="gr-card__stars" aria-label="Rated 5 out of 5">★★★★★</div>
+            <p>"So pleased with the cleaning and deodorizing of our garbage and recycle bins by The Bin Boy! Easy peasy process, too! Will use them again for sure! Thank you!"</p>
+            <div class="gr-card__author"><div class="gr-avatar">ST</div><strong>Sheryl T.</strong></div>
+          </article>
+          <article class="gr-card">
+            <div class="gr-card__stars" aria-label="Rated 5 out of 5">★★★★★</div>
+            <p>"I am so glad this service is available! Sebastian came out and cleaned both garbage cans. They are sparkling clean and smell good too — no longer stinky! Highly recommend their services!"</p>
+            <div class="gr-card__author"><div class="gr-avatar">CC</div><strong>Christy Chappell</strong></div>
+          </article>
+          <article class="gr-card">
+            <div class="gr-card__stars" aria-label="Rated 5 out of 5">★★★★★</div>
+            <p>"Great experience! Polite, clean, professional and a job well done! I will be using their services from here on out."</p>
+            <div class="gr-card__author"><div class="gr-avatar">AH</div><strong>Andrew Haws</strong></div>
+          </article>
+          <article class="gr-card">
+            <div class="gr-card__stars" aria-label="Rated 5 out of 5">★★★★★</div>
+            <p>"I had a great experience with The Bin Boy! The scheduling process was stress-free and the actual service was quick. I'm so pleased with my clean bin!"</p>
+            <div class="gr-card__author"><div class="gr-avatar">AW</div><strong>Alexis Waldrop</strong></div>
+          </article>
+          <article class="gr-card">
+            <div class="gr-card__stars" aria-label="Rated 5 out of 5">★★★★★</div>
+            <p>"They did a great job! Trash cans look and smell clean and they even put them up closer to the house and away from the curb when they were finished. Highly recommend!"</p>
+            <div class="gr-card__author"><div class="gr-avatar">KM</div><strong>Katherine Morgan</strong></div>
+          </article>
+          <article class="gr-card">
+            <div class="gr-card__stars" aria-label="Rated 5 out of 5">★★★★★</div>
+            <p>"I am VERY impressed! Our trashcan smelled horrendous from fly-trap juice and we were having trouble with flies. After The Bin Boy cleaned and sanitized it, it looks like a new trashcan and smells great! Thank you again."</p>
+            <div class="gr-card__author"><div class="gr-avatar">SM</div><strong>Sarah Miller</strong></div>
+          </article>
+        </div>
       </div>
+      <button type="button" class="reviews-carousel__nav reviews-carousel__nav--next" aria-label="Next reviews">›</button>
+      <div class="reviews-carousel__dots" role="tablist" aria-label="Choose review"></div>
     </div>
   </section>
 
@@ -707,7 +741,7 @@
         </details>
         <details class="faq-item" data-animate>
           <summary class="faq-item__q">What areas do you service near Charleston?</summary>
-          <p class="faq-item__a">We currently service Charleston, Goose Creek, Mount Pleasant, Moncks Corner, Johns Island, Hanahan, Folly Beach, and James Island. Monthly routes are based on customer density in each area; if your neighborhood isn't covered yet, get in touch and we'll add you to the waitlist.</p>
+          <p class="faq-item__a">We currently service Charleston, North Charleston, Summerville, Goose Creek, Mount Pleasant, Moncks Corner, Johns Island, Hanahan, Ladson, Folly Beach, James Island, and Isle of Palms. Monthly routes are based on customer density in each area; if your neighborhood isn't covered yet, get in touch and we'll add you to the waitlist.</p>
         </details>
         <details class="faq-item" data-animate>
           <summary class="faq-item__q">How does payment and scheduling work?</summary>
@@ -773,7 +807,7 @@
     <div class="container footer__inner">
       <div class="footer__brand">
         <a href="#" class="footer__logo-link">
-          <img src="images/The-Bin-Boy LOGO.png" alt="The Bin Boy" class="footer__logo-img" loading="lazy" />
+          <img src="images/logo.png" alt="The Bin Boy" class="footer__logo-img" width="600" height="643" loading="lazy" />
         </a>
         <p>Your local trash bin cleaning crew serving Charleston, Goose Creek, and the surrounding Lowcountry. We come to your home, wash your bins at 200°, and put them back in your garage.</p>
         <p class="footer__nap">
@@ -797,6 +831,7 @@
           <li><a href="#services">Monthly – $20</a></li>
           <li><a href="#services">Quarterly – $40</a></li>
           <li><a href="#services">Single Visit – $60</a></li>
+          <li><a href="commercial.html">Commercial Quotes</a></li>
         </ul>
       </div>
       <div class="footer__links">
@@ -811,7 +846,7 @@
     </div>
     <div class="footer__bottom">
       <div class="container">
-        <p>&copy; 2025 The Bin Boy. All rights reserved.</p>
+        <p>&copy; 2026 The Bin Boy. All rights reserved.</p>
       </div>
     </div>
   </footer>
