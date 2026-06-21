@@ -890,18 +890,22 @@ p { text-wrap: pretty; }
 .partner-callout__text {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
 }
 
 .partner-callout__text strong {
   font-family: var(--font-head);
-  font-size: 0.95rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--ink);
+  line-height: 1.25;
 }
 
 .partner-callout__text span {
-  font-size: 0.88rem;
+  font-size: 1rem;
+  line-height: 1.5;
   color: var(--muted);
 }
 
