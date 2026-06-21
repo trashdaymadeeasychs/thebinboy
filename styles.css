@@ -880,6 +880,13 @@ p { text-wrap: pretty; }
   flex-wrap: wrap;
 }
 
+.partner-callout__logo {
+  width: 160px;
+  height: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .partner-callout__text {
   display: flex;
   flex-direction: column;
@@ -900,6 +907,7 @@ p { text-wrap: pretty; }
 
 @media (max-width: 600px) {
   .partner-callout { flex-direction: column; align-items: flex-start; }
+  .partner-callout__logo { width: 140px; }
 }
 
 /* ===== COMMERCIAL ACCOUNTS ===== */
