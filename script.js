@@ -55,9 +55,9 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 //   4. Copy your Public Key from Account → General
 //   5. Replace the three placeholder strings below with your real values
 // ----------------------------------------------------------------
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'abc123XYZ'
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_xxxxxxx'
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // e.g. 'template_xxxxxxx'
+const EMAILJS_PUBLIC_KEY  = '7-x-8R_hKXtQaUlN6';   // e.g. 'abc123XYZ'
+const EMAILJS_SERVICE_ID  = 'GRy3taW305iw0d1O3yqrQ';   // e.g. 'service_xxxxxxx'
+const EMAILJS_TEMPLATE_ID = 'template_r7x8uu9';  // e.g. 'template_xxxxxxx'
 
 const commercialQuoteForm = document.getElementById('commercialQuoteForm');
 if (commercialQuoteForm) {
