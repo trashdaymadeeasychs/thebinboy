@@ -29,11 +29,19 @@ class Page(HTMLParser):
         self.in_nav = False
         self.json_data = []
         self.in_json = False
+        self.plans = {}
+        self.current_plan = None
+        self.plan_depth = 0
         self.feed(path.read_text())
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         self.elements.append((tag, attrs))
+        if tag == "div" and "data-plan" in attrs:
+            self.current_plan = attrs["data-plan"]
+            self.plans[self.current_plan] = []
+        if tag == "div" and self.current_plan is not None:
+            self.plan_depth += 1
         if tag == "nav" and attrs.get("id") == "navLinks":
             self.in_nav = True
         if tag == "a" and self.in_nav:
@@ -42,12 +50,18 @@ class Page(HTMLParser):
             self.in_json = True
 
     def handle_endtag(self, tag):
+        if tag == "div" and self.current_plan is not None:
+            self.plan_depth -= 1
+            if self.plan_depth == 0:
+                self.current_plan = None
         if tag == "nav":
             self.in_nav = False
         if tag == "script":
             self.in_json = False
 
     def handle_data(self, data):
+        if self.current_plan is not None:
+            self.plans[self.current_plan].append(data)
         if self.in_json:
             self.json_data.append(json.loads(data))
 
@@ -132,6 +146,40 @@ class SiteTests(unittest.TestCase):
                 self.assertEqual(last["name"], label)
                 self.assertEqual(last["item"], ORIGIN + name)
                 self.assertEqual(nodes[0]["url"], ORIGIN + name)
+
+    def test_residential_rates_match_booking_service_options(self):
+        expected = {
+            "biweekly": ("25 first cleaning", "2 cleanings per month"),
+            "monthly": ("25 / month", "1 cleaning per month"),
+            "bimonthly": ("35 every other month", "1 cleaning every 2 months"),
+            "quarterly": ("45 / quarter", "1 cleaning every 3 months"),
+            "onetime": ("80 / visit", "One-time cleaning"),
+        }
+        for name in ("index.html", "pricing.html"):
+            page = self.pages[name]
+            self.assertEqual(list(page.plans), list(expected))
+            for plan, (rate, frequency) in expected.items():
+                with self.subTest(page=name, plan=plan):
+                    text = " ".join(" ".join(page.plans[plan]).split())
+                    self.assertIn(rate, text)
+                    self.assertIn(frequency, text)
+                    self.assertIn("1 bin included", text)
+                    self.assertNotIn("2 bins included", text)
+                    if plan == "biweekly":
+                        self.assertIn("$15 for the second cleaning each month", text)
+
+    def test_structured_offers_match_visible_rates(self):
+        nodes = self.pages["index.html"].json_data[0]["@graph"]
+        offers = {n["offers"]["@id"].split("#offer-")[1]: n["offers"]
+                  for n in nodes if n.get("@type") == "Service"}
+        self.assertEqual({name: offer["price"] for name, offer in offers.items()},
+                         {"biweekly": "25", "monthly": "25", "bimonthly": "35",
+                          "quarterly": "45", "onetime": "80"})
+        for offer in offers.values():
+            self.assertEqual(offer["priceCurrency"], "USD")
+            self.assertIn("one bin", offer["description"])
+            self.assertIn("$15 per bin", offer["description"])
+        self.assertIn("$15 for the second cleaning each month", offers["biweekly"]["description"])
 
 
 if __name__ == "__main__":

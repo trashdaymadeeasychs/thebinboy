@@ -735,11 +735,13 @@ p { text-wrap: pretty; }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--sp-8);
-  align-items: start;
+  align-items: stretch;
   margin-bottom: var(--sp-8);
 }
 
 .pricing-card {
+  display: flex;
+  flex-direction: column;
   background: var(--white-tint);
   border: 2px solid var(--border);
   border-radius: var(--radius-md);
@@ -816,6 +818,16 @@ p { text-wrap: pretty; }
   padding-bottom: var(--sp-6);
   border-bottom: 1px solid var(--border);
 }
+
+.pricing-card__billing {
+  margin: calc(-1 * var(--sp-4)) 0 var(--sp-6);
+  color: var(--ink-mid);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.pricing-card__features { flex: 1; }
+.pricing-card > .btn { white-space: normal; }
 
 .price-dollar {
   font-family: var(--font-head);
