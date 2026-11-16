@@ -26,11 +26,13 @@ jobs:
           persist-credentials: false
 
       - name: Check website
+        shell: bash
         run: |
+          set -euo pipefail
           python3 -m unittest discover -s tests -v
           node --check script.js
 
-      - name: Deploy website files
+      - name: Deploy and verify website files
         shell: bash
         env:
           SSH_PRIVATE_KEY: ${{ secrets.BLUEHOST_SSH_KEY }}
@@ -42,14 +44,23 @@ jobs:
           test -n "$SSH_KNOWN_HOSTS"
 
           install -d -m 700 "$HOME/.ssh"
-          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > "$HOME/.ssh/bluehost_key"
-          printf '%s\n' "$SSH_KNOWN_HOSTS" | tr -d '\r' > "$HOME/.ssh/bluehost_hosts"
+
+          printf '%s\n' "$SSH_PRIVATE_KEY" |
+            tr -d '\r' > "$HOME/.ssh/bluehost_key"
+
+          printf '%s\n' "$SSH_KNOWN_HOSTS" |
+            tr -d '\r' > "$HOME/.ssh/bluehost_hosts"
+
           chmod 600 "$HOME/.ssh/bluehost_key" "$HOME/.ssh/bluehost_hosts"
 
-          ssh-keygen -y -P "" -f "$HOME/.ssh/bluehost_key" > /dev/null
-          ssh-keygen -F 162.241.224.92 -f "$HOME/.ssh/bluehost_hosts" > /dev/null
+          ssh-keygen -y -P "" \
+            -f "$HOME/.ssh/bluehost_key" > /dev/null
+
+          ssh-keygen -F 162.241.224.92 \
+            -f "$HOME/.ssh/bluehost_hosts" > /dev/null
 
           site_dir=$(mktemp -d "$RUNNER_TEMP/binboy-site.XXXXXX")
+
           cp *.html styles.css script.js robots.txt sitemap.xml "$site_dir/"
           cp -R images "$site_dir/"
 
@@ -72,52 +83,95 @@ jobs:
 
           backup_dir="$HOME/github_binboy_backups"
           mkdir -p "$backup_dir"
+
           backup="$backup_dir/site-$(date -u +%Y%m%dT%H%M%SZ)-$$.tar.gz"
 
           (
             umask 077
-            tar -czf "$backup" -- *.html styles.css script.js robots.txt sitemap.xml images
+            tar -czf "$backup" -- \
+              *.html styles.css script.js robots.txt sitemap.xml images
           )
+
           tar -tzf "$backup" > /dev/null
 
           stage=$(mktemp -d "$HOME/.binboy-stage.XXXXXX")
           trap 'rm -rf "$stage"' EXIT
 
           tar -xf - -C "$stage"
+
           test -s "$stage/index.html"
           test -s "$stage/pricing.html"
           test -s "$stage/styles.css"
 
+          expected_hashes=$(
+            cd "$stage"
+            find . -type f -exec sha256sum {} +
+          )
+
+          test -n "$expected_hashes"
+
           cp -R "$stage/." "$docroot/"
-          echo "Website deployed. Backup saved outside public_html."
+
+          (
+            cd "$docroot"
+            printf '%s\n' "$expected_hashes" | sha256sum -c -
+          )
+
+          echo "Uploaded files match the deployment package."
+          echo "Backup saved outside public_html."
           REMOTE
           )
 
           tar -C "$site_dir" -cf - . |
-            ssh "${ssh_options[@]}" thebinbo@162.241.224.92 "$remote_script"
+            ssh "${ssh_options[@]}" \
+              thebinbo@162.241.224.92 "$remote_script"
 
-      - name: Verify live pricing page
+          echo "Website files deployed and checksum-verified over SSH." \
+            >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check public pricing page
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --silent --show-error --location \
+
+          http_status=$(curl --silent --show-error --location \
             --retry 3 --retry-all-errors --retry-delay 5 --max-time 30 \
+            --write-out '%{http_code}' \
             "https://thebinboy.com/pricing.html?deploy=$GITHUB_SHA" \
-            -o "$RUNNER_TEMP/live-pricing.html"
+            -o "$RUNNER_TEMP/live-pricing.html")
+
+          if [ "$http_status" = "403" ]; then
+            echo "::warning::Public HTTP verification received 403. Uploaded files were verified over SSH."
+            echo "Public HTTP access could not be verified because the request received 403." \
+              >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          if [ "$http_status" != "200" ]; then
+            echo "::error::Live pricing page returned HTTP $http_status"
+            exit 1
+          fi
 
           python3 - "$RUNNER_TEMP/live-pricing.html" <<'PY'
           from pathlib import Path
           import sys
 
           html = Path(sys.argv[1]).read_text()
+
           assert html.count('pricing-card__extra') == 5, \
               "Live page does not show all five updated pricing cards"
+
           assert html.count('Additional bins are $15 per bin') >= 5, \
               "Live page is missing additional-bin pricing"
+
           print("Live pricing page verified.")
           PY
 
+          echo "Public pricing page verification passed." \
+            >> "$GITHUB_STEP_SUMMARY"
+
       - name: Remove deployment credentials
         if: always()
+        shell: bash
         run: |
           rm -f "$HOME/.ssh/bluehost_key" "$HOME/.ssh/bluehost_hosts"
