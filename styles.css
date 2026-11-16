@@ -841,6 +841,15 @@ p { text-wrap: pretty; }
 .pricing-card__comparison { color: var(--muted); font-size: 0.8125rem; }
 .pricing-card__comparison span { white-space: nowrap; }
 
+.pricing-card__extra {
+  margin-top: var(--sp-4);
+  color: var(--ink-mid);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
 .pricing-card > .btn {
   white-space: normal;
   min-height: 48px;
