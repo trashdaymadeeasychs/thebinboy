@@ -96,6 +96,27 @@ class SiteTests(unittest.TestCase):
                            if a.get("aria-current") == "page"]
                 self.assertEqual(current, [] if name == "index.html" else [name])
 
+    def test_navigation_is_identical_on_every_page(self):
+        expected = [{k: v for k, v in a.items() if k != "aria-current"}
+                    for a in self.pages["index.html"].nav_links]
+        for name, page in self.pages.items():
+            with self.subTest(page=name):
+                links = [{k: v for k, v in a.items() if k != "aria-current"}
+                         for a in page.nav_links]
+                self.assertEqual(links, expected)
+
+    def test_reviews_page_uses_five_star_review_cards(self):
+        page = self.pages["reviews.html"]
+        cards = page.find("figure", **{"class": "gr-card"})
+        stars = page.find("div", **{"class": "gr-card__stars", "role": "img",
+                                   "aria-label": "Rated 5 out of 5 stars"})
+        self.assertEqual(len(cards), 7)
+        self.assertEqual(len(stars), len(cards))
+        text = (ROOT / "reviews.html").read_text()
+        for author in ("Geraldine Shepherd", "Sheryl T.", "Christy Chappell", "Andrew Haws",
+                       "Alexis Waldrop", "Katherine Morgan", "Sarah Miller"):
+            self.assertIn(f"<strong>{author}</strong>", text)
+
     def test_unique_metadata_and_self_referencing_canonicals(self):
         descriptions = []
         titles = []
@@ -165,8 +186,11 @@ class SiteTests(unittest.TestCase):
                     self.assertIn(frequency, text)
                     self.assertIn("1 bin included", text)
                     self.assertNotIn("2 bins included", text)
+                    self.assertTrue(text.rstrip().endswith("Additional bins are $15 per bin"))
                     if plan == "biweekly":
                         self.assertIn("$15 for the second cleaning each month", text)
+                    if plan == "monthly":
+                        self.assertNotIn("Single visit", text)
 
     def test_structured_offers_match_visible_rates(self):
         nodes = self.pages["index.html"].json_data[0]["@graph"]
