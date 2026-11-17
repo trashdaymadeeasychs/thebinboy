@@ -191,3 +191,85 @@ if (reviewsCarousel) {
   update();
   restart();
 }
+
+// ===== HERO PRICE BUILDER =====
+// Keep these in sync with the pricing cards (index.html, pricing.html).
+// Every plan includes 1 bin; each extra bin is $15 per cleaning.
+const QUOTE_PLANS = {
+  biweekly:  { name: 'Bi-Weekly',    visits: [25, 15], per: '/ month' },
+  monthly:   { name: 'Monthly',      visits: [25],     per: '/ month' },
+  bimonthly: { name: 'Bi-Monthly',   visits: [35],     per: '/ every 2 months' },
+  quarterly: { name: 'Quarterly',    visits: [45],     per: '/ every 3 months' },
+  onetime:   { name: 'Single Visit', visits: [80],     per: 'one time' },
+};
+const QUOTE_EXTRA_BIN = 15;
+const QUOTE_PROMO_OFF = 10;
+const QUOTE_PHONE = '+18434780108';
+
+const quote = document.querySelector('[data-quote]');
+if (quote) {
+  const $ = (sel) => quote.querySelector(sel);
+  const amountEl = $('[data-quote-amount]');
+  const perEl = $('[data-quote-per]');
+  const mathEl = $('[data-quote-math]');
+  const firstEl = $('[data-quote-first]');
+  const areaEl = $('[data-quote-area]');
+  const smsEl = $('[data-quote-sms]');
+  const codeEl = $('[data-quote-code]');
+  const townEl = $('#quoteTown');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const money = (n) => `$${n}`;
+
+  function render() {
+    const bins = Number(quote.querySelector('input[name="bins"]:checked').value);
+    const plan = QUOTE_PLANS[quote.querySelector('input[name="plan"]:checked').value];
+    const extra = bins - 1;
+    const extraPerVisit = extra * QUOTE_EXTRA_BIN;
+    const total = plan.visits.reduce((sum, v) => sum + v + extraPerVisit, 0);
+    const first = plan.visits[0] + extraPerVisit - QUOTE_PROMO_OFF;
+    const twoVisits = plan.visits.length > 1;
+
+    let math = twoVisits
+      ? `${money(plan.visits[0])} first + ${money(plan.visits[1])} second cleaning`
+      : `${plan.name} plan ${money(plan.visits[0])}`;
+    math += extra > 0
+      ? ` + ${money(QUOTE_EXTRA_BIN)} × ${extra} extra bin${extra > 1 ? 's' : ''}${twoVisits ? ' each visit' : ''}`
+      : ' · 1 bin included';
+    if (bins >= 4) math += '. More than 4 bins? Text us for a quote.';
+
+    const changed = amountEl.textContent !== money(total);
+    amountEl.textContent = money(total);
+    perEl.textContent = plan.per;
+    mathEl.textContent = math;
+    firstEl.textContent = money(first);
+    if (changed && !reduceMotion) {
+      amountEl.classList.toggle('is-bumping', false);
+      void amountEl.offsetWidth; // restart the animation
+      amountEl.classList.toggle('is-bumping', true);
+    }
+
+    const town = townEl.value;
+    areaEl.hidden = !town;
+    areaEl.classList.toggle('is-out', town === 'other');
+    areaEl.textContent = town === 'other'
+      ? "We may not have a route near you yet. Text Bryan and he'll let you know."
+      : `✓ ${town} is in our service area. We'll confirm your date when you book.`;
+
+    const where = town && town !== 'other' ? ` in ${town}` : '';
+    const binText = `${bins}${bins >= 4 ? '+' : ''} bin${bins > 1 ? 's' : ''}`;
+    const body = `Hi Bryan! I'd like the ${plan.name} plan for ${binText}${where} (${money(total)} ${plan.per.replace(/^\/ every/, 'every').replace(/^\/ /, 'per ')}). Promo code STINKY.`;
+    smsEl.href = `sms:${QUOTE_PHONE}?&body=${encodeURIComponent(body)}`;
+  }
+
+  quote.addEventListener('change', render);
+
+  codeEl.addEventListener('click', () => {
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText('STINKY').then(() => {
+      codeEl.textContent = 'COPIED ✓';
+      setTimeout(() => { codeEl.textContent = 'STINKY'; }, 1600);
+    }, () => {});
+  });
+
+  render();
+}

@@ -406,28 +406,95 @@
   <main id="main-content">
 
   <!-- ===== HERO ===== -->
-  <section class="hero">
+  <!--
+    The hero is a price builder: three taps (bins, schedule, town) give the
+    visitor their own price, then one tap books it or texts it to Bryan.
+    PRICES live in script.js (QUOTE_PLANS) and must match the pricing cards
+    below. The markup ships with the default answer (Monthly, 1 bin) so the
+    price still reads correctly before or without JavaScript.
+  -->
+  <section class="hero hero--quote">
     <div class="hero__bg-shapes">
       <div class="shape shape-1"></div>
       <div class="shape shape-2"></div>
     </div>
     <div class="container hero__inner">
 
-      <!-- Logo LEFT -->
-      <div class="hero__logo-wrap">
-        <img src="images/logo.png" alt="The Bin Boy – A Convenient Company" class="hero__logo-img" width="600" height="643" loading="eager" fetchpriority="high" />
+      <div class="hero__text">
+        <div class="hero__brand">
+          <img src="images/logo.png" alt="The Bin Boy – A Convenient Company" class="hero__mascot" width="600" height="643" loading="eager" fetchpriority="high" />
+          <span class="badge">🏡 A Convenient Company</span>
+        </div>
+        <h1>We Come to Your Home &amp; Clean <em>Your Bins Out</em></h1>
+        <p>We power wash your bins inside and out at <strong>200°</strong>, deodorize them, and put them back in your garage. You don't need to be home.</p>
+        <a href="https://www.google.com/search?q=the+bin+boy+summerville+sc" target="_blank" rel="noopener" class="hero__proof">
+          <span class="hero__proof-stars" aria-hidden="true">★★★★★</span>
+          <span><strong>4.9</strong> from 440+ Google reviews</span>
+        </a>
+        <ul class="hero__facts">
+          <li>Fully insured</li>
+          <li>No contracts</li>
+          <li>Text when we're done</li>
+        </ul>
       </div>
 
-      <!-- Text RIGHT -->
-      <div class="hero__text">
-        <span class="badge">🏡 A Convenient Company</span>
-        <h1>We Come to<br />Your Home &amp; Clean<br /><em>Your Bins Out</em></h1>
-        <p>Smelly, grimy garbage bins are a fact of life, but they don't have to be yours. The Bin Boy comes straight to your driveway, power washes your bins inside and out at <strong>200°</strong>, and leaves them fresh and sanitized. You don't lift a finger.</p>
-        <div class="hero__ctas">
-          <a href="https://clienthub.getjobber.com/hubs/de76b674-b23c-4e12-9114-a51409e7ab45/public/requests/369306/new?source=social_media" target="_blank" rel="noopener" class="btn btn--primary">Book Your Cleaning</a>
-          <a href="how-it-works.html" class="btn btn--outline">See How It Works</a>
+      <div class="quote" id="quote" data-quote>
+        <p class="quote__eyebrow">Your price in 3 taps</p>
+        <h2 class="quote__title">What would my bins cost?</h2>
+
+        <fieldset class="quote__step">
+          <legend><span class="quote__n">1</span> How many bins?</legend>
+          <div class="quote__bins">
+            <label class="chip"><input type="radio" name="bins" value="1" checked /><span>1</span></label>
+            <label class="chip"><input type="radio" name="bins" value="2" /><span>2</span></label>
+            <label class="chip"><input type="radio" name="bins" value="3" /><span>3</span></label>
+            <label class="chip"><input type="radio" name="bins" value="4" /><span>4+</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="quote__step">
+          <legend><span class="quote__n">2</span> How often?</legend>
+          <div class="quote__plans">
+            <label class="chip"><input type="radio" name="plan" value="biweekly" /><span>Every 2 weeks</span></label>
+            <label class="chip"><input type="radio" name="plan" value="monthly" checked /><span>Monthly <small>Popular</small></span></label>
+            <label class="chip"><input type="radio" name="plan" value="bimonthly" /><span>Every 2 months</span></label>
+            <label class="chip"><input type="radio" name="plan" value="quarterly" /><span>Every 3 months</span></label>
+            <label class="chip"><input type="radio" name="plan" value="onetime" /><span>Just once</span></label>
+          </div>
+        </fieldset>
+
+        <div class="quote__step">
+          <label class="quote__label" for="quoteTown"><span class="quote__n">3</span> Where are your bins?</label>
+          <select id="quoteTown" name="town" class="quote__select">
+            <option value="">Choose your town</option>
+            <option>Charleston</option>
+            <option>North Charleston</option>
+            <option>Summerville</option>
+            <option>Goose Creek</option>
+            <option>Mount Pleasant</option>
+            <option>Moncks Corner</option>
+            <option>Johns Island</option>
+            <option>Hanahan</option>
+            <option>Ladson</option>
+            <option>Folly Beach</option>
+            <option>James Island</option>
+            <option>Isle of Palms</option>
+            <option value="other">Somewhere else</option>
+          </select>
         </div>
-        <p class="hero__specs">200° sanitizing &nbsp;·&nbsp; 1 bin included &nbsp;·&nbsp; from $25/month</p>
+
+        <div class="quote__result" aria-live="polite">
+          <p class="quote__price"><span class="quote__amount" data-quote-amount>$25</span> <span class="quote__per" data-quote-per>/ month</span></p>
+          <p class="quote__math" data-quote-math>Monthly plan · 1 bin included</p>
+          <p class="quote__promo">
+            First cleaning <strong data-quote-first>$15</strong> with code
+            <button type="button" class="quote__code" data-quote-code aria-label="Copy promo code STINKY">STINKY</button>
+          </p>
+          <p class="quote__area" data-quote-area hidden></p>
+        </div>
+
+        <a href="https://clienthub.getjobber.com/hubs/de76b674-b23c-4e12-9114-a51409e7ab45/public/requests/369306/new?source=social_media" target="_blank" rel="noopener" class="btn btn--primary quote__book" data-quote-book>Book This Plan <span aria-hidden="true">&rarr;</span></a>
+        <a href="sms:+18434780108" class="quote__sms" data-quote-sms>Or text this quote to Bryan: <span class="nowrap">(843) 478-0108</span></a>
       </div>
 
     </div>
