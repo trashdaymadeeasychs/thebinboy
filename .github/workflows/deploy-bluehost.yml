@@ -64,6 +64,18 @@ jobs:
           cp *.html styles.css script.js robots.txt sitemap.xml "$site_dir/"
           cp -R images "$site_dir/"
 
+          # Give styles.css and script.js a new URL on every deploy so no
+          # browser or CDN cache can keep serving an old copy with new HTML.
+          asset_version="${GITHUB_SHA:0:12}"
+          sed -i \
+            -e "s#href=\"styles.css\"#href=\"styles.css?v=${asset_version}\"#" \
+            -e "s#src=\"script.js\"#src=\"script.js?v=${asset_version}\"#" \
+            "$site_dir"/*.html
+          for page in "$site_dir"/*.html; do
+            grep -q "href=\"styles.css?v=${asset_version}\"" "$page"
+            grep -q "src=\"script.js?v=${asset_version}\"" "$page"
+          done
+
           ssh_options=(
             -i "$HOME/.ssh/bluehost_key"
             -p 22
@@ -166,6 +178,24 @@ jobs:
 
           print("Live pricing page verified.")
           PY
+
+          asset_version="${GITHUB_SHA:0:12}"
+          grep -q "styles.css?v=${asset_version}" "$RUNNER_TEMP/live-pricing.html" || {
+            echo "::error::Live pricing page does not reference this deploy's stylesheet"
+            exit 1
+          }
+
+          curl --silent --show-error --fail --location \
+            --retry 3 --retry-all-errors --retry-delay 5 --max-time 30 \
+            "https://thebinboy.com/styles.css?v=${asset_version}" \
+            -o "$RUNNER_TEMP/live-styles.css"
+
+          if ! cmp -s styles.css "$RUNNER_TEMP/live-styles.css"; then
+            echo "::error::Live styles.css does not match this commit"
+            exit 1
+          fi
+
+          echo "Live stylesheet matches this commit." >> "$GITHUB_STEP_SUMMARY"
 
           echo "Public pricing page verification passed." \
             >> "$GITHUB_STEP_SUMMARY"
