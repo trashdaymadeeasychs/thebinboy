@@ -2,9 +2,9 @@
 
 // ===== NAVBAR: scroll state =====
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
+const updateNavbar = () => navbar.classList.toggle('scrolled', window.scrollY > 40);
+window.addEventListener('scroll', updateNavbar, { passive: true });
+updateNavbar(); // correct state on load, e.g. after a reload mid-page or a #link
 
 // ===== BURGER MENU =====
 const burgerBtn = document.getElementById('burgerBtn');
