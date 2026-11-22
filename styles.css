@@ -1880,6 +1880,7 @@ p { text-wrap: pretty; }
 .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: var(--sp-3); list-style: none; }
 .breadcrumbs li + li::before { content: '/'; margin-right: var(--sp-3); opacity: 0.6; }
 .breadcrumbs a { text-decoration: underline; text-underline-offset: 4px; }
+.commercial-hero .breadcrumbs { margin-bottom: var(--sp-4); }
 
 .section-link { margin-top: var(--sp-10); text-align: center; }
 .section-link a, .text-link, .page-prose a:not(.btn) {
@@ -1900,6 +1901,11 @@ p { text-wrap: pretty; }
 }
 .page-prose p + p { margin-top: var(--sp-5); }
 .page-prose .hero__ctas { margin-top: var(--sp-8); }
+.page-prose > ul { list-style: disc; padding-left: 1.4em; margin: var(--sp-4) 0 var(--sp-5); }
+.page-prose > ul li + li { margin-top: var(--sp-2); }
+.page-prose > * + h2 { margin-top: var(--sp-12); }
+.page-prose > ul + p { margin-top: var(--sp-5); }
+.page-prose > blockquote { margin: 0 0 var(--sp-5); padding-left: var(--sp-5); border-left: 4px solid var(--green); }
 .page-details { background: var(--green-pale); }
 .page-next { background: var(--green-light); }
 .page-next .page-related { margin-top: var(--sp-8); }
@@ -1913,7 +1919,7 @@ p { text-wrap: pretty; }
 .topic-page .van-text h2, .topic-page .van-text .text-link,
 .topic-page .van-section figcaption { color: var(--white-tint); }
 .page-story { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-12); align-items: center; }
-.page-story > img { width: 100%; height: auto; border-radius: var(--radius-md); }
+.page-story > img, .page-story > picture > img { width: 100%; height: auto; border-radius: var(--radius-md); }
 /* Reviews page: the same Google-style cards as the home page carousel, in a grid */
 .gr-grid {
   display: grid;
@@ -1993,6 +1999,7 @@ p { text-wrap: pretty; }
 
 @media (max-width: 860px) {
   .hero__inner { grid-template-columns: 1fr; text-align: center; }
+  .commercial-hero .breadcrumbs ol { justify-content: center; }
   .hero__logo-wrap { order: -1; }
   .hero__logo-img { max-width: 280px; }
   .hero__specs { text-align: center; }
@@ -2310,3 +2317,7 @@ p { text-wrap: pretty; }
   .quote__plans .chip:nth-child(5) { grid-column: span 2; }
   .quote__amount { font-size: 2.4rem; }
 }
+
+/* WebP <picture> wrappers: let the <img> inside lay out as if unwrapped. */
+picture { display: contents; }
+picture > source { display: none; }
