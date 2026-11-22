@@ -1906,6 +1906,9 @@ p { text-wrap: pretty; }
 .page-prose > * + h2 { margin-top: var(--sp-12); }
 .page-prose > ul + p { margin-top: var(--sp-5); }
 .page-prose > blockquote { margin: 0 0 var(--sp-5); padding-left: var(--sp-5); border-left: 4px solid var(--green); }
+.page-prose > blockquote p:first-child { font-style: italic; }
+.page-prose > blockquote p + p { margin-top: var(--sp-2); font-size: 0.9rem; }
+.page-prose > picture > img { width: 100%; max-width: 480px; height: auto; border-radius: var(--radius-md); margin-bottom: var(--sp-8); }
 .page-details { background: var(--green-pale); }
 .page-next { background: var(--green-light); }
 .page-next .page-related { margin-top: var(--sp-8); }

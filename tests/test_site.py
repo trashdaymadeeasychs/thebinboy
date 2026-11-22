@@ -22,7 +22,8 @@ TOPICS = {
 # Pages that are not real content: no canonical, not in the sitemap, noindex.
 ERROR_PAGES = {"404.html"}
 # Real pages that are linked from the footer, not the main navigation.
-FOOTER_PAGES = {"privacy.html"}
+GUIDE_PAGES = {"why-does-my-trash-can-smell.html"}
+FOOTER_PAGES = {"privacy.html", *GUIDE_PAGES}
 
 
 class Page(HTMLParser):
@@ -154,6 +155,18 @@ class SiteTests(unittest.TestCase):
         for name, page in self.pages.items():
             with self.subTest(page=name):
                 self.assertTrue(page.find("a", href="privacy.html"))
+
+    def test_guide_pages_are_articles_linked_from_home(self):
+        home_links = [a.get("href") for _, a in self.pages["index.html"].elements]
+        for name in GUIDE_PAGES:
+            with self.subTest(page=name):
+                nodes = self.pages[name].json_data[0]["@graph"]
+                article = next(n for n in nodes if n["@type"] == "Article")
+                self.assertTrue(article["headline"])
+                self.assertTrue(article["datePublished"])
+                crumbs = next(n for n in nodes if n["@type"] == "BreadcrumbList")
+                self.assertEqual(crumbs["itemListElement"][-1]["item"], ORIGIN + name)
+                self.assertIn(name, home_links)
 
     def test_internal_links_and_assets_resolve(self):
         for name, page in self.pages.items():
