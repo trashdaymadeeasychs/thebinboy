@@ -19,6 +19,10 @@ TOPICS = {
     "About": "about.html",
     "Reviews": "reviews.html",
 }
+# Pages that are not real content: no canonical, not in the sitemap, noindex.
+ERROR_PAGES = {"404.html"}
+# Real pages that are linked from the footer, not the main navigation.
+FOOTER_PAGES = {"privacy.html"}
 
 
 class Page(HTMLParser):
@@ -79,7 +83,7 @@ class SiteTests(unittest.TestCase):
         cls.pages = {p.name: Page(p) for p in ROOT.glob("*.html")}
 
     def test_all_topics_are_standalone_documents(self):
-        self.assertEqual(set(self.pages), {"index.html", *TOPICS.values()})
+        self.assertEqual(set(self.pages), {"index.html", *TOPICS.values(), *ERROR_PAGES, *FOOTER_PAGES})
         for name, page in self.pages.items():
             with self.subTest(page=name):
                 self.assertEqual(len(page.find("h1")), 1)
@@ -94,7 +98,7 @@ class SiteTests(unittest.TestCase):
                                  list(TOPICS.values()))
                 current = [a["href"] for a in page.nav_links
                            if a.get("aria-current") == "page"]
-                self.assertEqual(current, [] if name == "index.html" else [name])
+                self.assertEqual(current, [] if name in {"index.html", *ERROR_PAGES, *FOOTER_PAGES} else [name])
 
     def test_navigation_is_identical_on_every_page(self):
         expected = [{k: v for k, v in a.items() if k != "aria-current"}
@@ -120,7 +124,8 @@ class SiteTests(unittest.TestCase):
     def test_unique_metadata_and_self_referencing_canonicals(self):
         descriptions = []
         titles = []
-        for name, page in self.pages.items():
+        content_pages = {n: p for n, p in self.pages.items() if n not in ERROR_PAGES}
+        for name, page in content_pages.items():
             with self.subTest(page=name):
                 url = ORIGIN + ("" if name == "index.html" else name)
                 self.assertEqual(page.find("link", rel="canonical"),
@@ -131,8 +136,24 @@ class SiteTests(unittest.TestCase):
                 descriptions.append(description[0]["content"])
                 titles.append((ROOT / name).read_text().split("<title>")[1].split("</title>")[0])
                 self.assertFalse(page.find("meta", name="robots", content="noindex"))
-        self.assertEqual(len(set(descriptions)), len(self.pages))
-        self.assertEqual(len(set(titles)), len(self.pages))
+        self.assertEqual(len(set(descriptions)), len(content_pages))
+        self.assertEqual(len(set(titles)), len(content_pages))
+
+    def test_error_pages_are_noindex_and_work_from_any_url(self):
+        for name in ERROR_PAGES:
+            with self.subTest(page=name):
+                page = self.pages[name]
+                self.assertEqual(len(page.find("meta", name="robots", content="noindex")), 1)
+                self.assertEqual(page.find("base"), [{"href": "/"}])
+                self.assertFalse(page.find("link", rel="canonical"))
+                # With <base href="/">, a "#..." link would jump to the home page.
+                self.assertFalse([a for t, a in page.elements
+                                  if t == "a" and a.get("href", "").startswith("#")])
+
+    def test_every_page_links_to_the_privacy_policy(self):
+        for name, page in self.pages.items():
+            with self.subTest(page=name):
+                self.assertTrue(page.find("a", href="privacy.html"))
 
     def test_internal_links_and_assets_resolve(self):
         for name, page in self.pages.items():
@@ -152,14 +173,13 @@ class SiteTests(unittest.TestCase):
     def test_sitemap_lists_every_page_once(self):
         tree = ET.parse(ROOT / "sitemap.xml")
         locations = [e.text for e in tree.findall(".//{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
-        expected = {ORIGIN + ("" if name == "index.html" else name) for name in self.pages}
+        expected = {ORIGIN + ("" if name == "index.html" else name)
+                    for name in self.pages if name not in ERROR_PAGES}
         self.assertEqual(set(locations), expected)
         self.assertEqual(len(locations), len(expected))
 
     def test_new_pages_have_matching_structured_breadcrumbs(self):
         for label, name in TOPICS.items():
-            if name == "commercial.html":
-                continue
             with self.subTest(page=name):
                 nodes = self.pages[name].json_data[0]["@graph"]
                 crumbs = next(n for n in nodes if n["@type"] == "BreadcrumbList")

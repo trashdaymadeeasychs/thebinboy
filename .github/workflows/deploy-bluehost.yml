@@ -24,6 +24,8 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
+          # Full history so the sitemap can use each page's last change date.
+          fetch-depth: 0
 
       - name: Check website
         shell: bash
@@ -63,6 +65,9 @@ jobs:
 
           cp *.html styles.css script.js robots.txt sitemap.xml "$site_dir/"
           cp -R images "$site_dir/"
+
+          # Date each sitemap entry from the page's last git change.
+          python3 scripts/sitemap_lastmod.py "$site_dir/sitemap.xml"
 
           # Give styles.css and script.js a new URL on every deploy so no
           # browser or CDN cache can keep serving an old copy with new HTML.
@@ -128,6 +133,20 @@ jobs:
             cd "$docroot"
             printf '%s\n' "$expected_hashes" | sha256sum -c -
           )
+
+          # Serve the branded 404 page with a real 404 status. Never replace
+          # Bluehost's existing .htaccess: back it up, then append the one line
+          # only if it is missing.
+          htaccess="$docroot/.htaccess"
+          error_rule='ErrorDocument 404 /404.html'
+          if ! grep -qxF "$error_rule" "$htaccess" 2>/dev/null; then
+            if [ -f "$htaccess" ]; then
+              cp "$htaccess" \
+                "$backup_dir/htaccess-$(date -u +%Y%m%dT%H%M%SZ)-$$"
+            fi
+            printf '\n%s\n' "$error_rule" >> "$htaccess"
+            echo "Added 404 rule to .htaccess."
+          fi
 
           echo "Uploaded files match the deployment package."
           echo "Backup saved outside public_html."
