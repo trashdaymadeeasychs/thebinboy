@@ -2060,7 +2060,7 @@ p { text-wrap: pretty; }
 }
 .hero__brand .badge { margin-bottom: 0; }
 .hero__mascot {
-  width: 112px;
+  width: 200px;
   height: auto;
   flex: none;
   filter: drop-shadow(0 10px 22px oklch(0% 0 0 / 0.45));
@@ -2301,7 +2301,7 @@ p { text-wrap: pretty; }
      straight after the hero repeats 200° / insured, so the lead can go. */
   .hero--quote { padding-top: 112px; padding-bottom: 40px; }
   .hero--quote .hero__inner { gap: var(--sp-5); }
-  .hero__mascot { width: 52px; }
+  .hero__mascot { width: 88px; }
   .hero__brand { margin-bottom: var(--sp-3); gap: var(--sp-3); }
   .hero__brand .badge { font-size: 0.72rem; padding: 4px 12px; }
   .hero--quote .hero__text h1 { font-size: 1.8rem; max-width: none; margin-bottom: var(--sp-3); }
